@@ -11,7 +11,7 @@ use App\Transformers\UserTransformer;
 class UserController extends Controller
 {
     use Helpers;
-    public function getUsers($count){
+    public function getUsers($count = 10){
 
         $users = User::paginate($count);
         return $this->response->paginator($users, new UserTransformer);

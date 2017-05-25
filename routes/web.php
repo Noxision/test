@@ -1,5 +1,9 @@
 <?php
-
+use App\Http\Middleware\CheckAge;
+use Illuminate\Support\Facades\DB;
+use App\User;
+use App\Subcategory;
+use App\Article;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,3 +30,20 @@ Route::get('about', function () {
 });
 
 Route::get('five', 'PageControllerFive@five');
+
+Route::get('/assets/images/{filename}', 'PageControllerFive@img');
+
+Route::get('subcategory', function() {
+    $subcategories = DB::table('subcategories')->select('id', 'title', 'category_id')->get();
+    foreach ($subcategories as $val) {
+        $id = $val->id;
+        $val->articles_count = DB::table('articles')->where('subcategory_id', $id)->count();
+    }
+    //$subcategories = Subcategory::all('title')->where('id', 2);
+    //$subcategories = Subcategory::where('id', 1)->list('title');
+    return $subcategories;
+});
+
+Route::get('sometext', function () {
+    return "all ok";
+});

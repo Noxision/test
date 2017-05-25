@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\User;
+use App\Subcategory;
+use App\Article;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +24,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', function ($api){
-    $api->get('users/{count}', 'App\Http\Controllers\UserController@getUsers');
-    /*$api->get('users', function () {
+    $api->get('users/{count?}', 'App\Http\Controllers\UserController@getUsers')
+    ->where('count', '[0-9]+');
+
+    $api->get('ok', function () {
         return 'It is ok';
-    });*/
+    });
+
+    $api->get('subcategory', 'App\Http\Controllers\SubcategoryController@index');
 });
